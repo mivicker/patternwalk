@@ -1,0 +1,7 @@
+[project]
+name = "patternwalk"
+version = "0.0.0"
+dependencies = [
+    "scipy >= 1.8.1",
+    "numpy >= 1.22.1"
+]
