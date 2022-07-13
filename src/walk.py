@@ -3,6 +3,13 @@ import numpy as np
 from scipy.spatial.distance import cosine as cos_sim
 
 
+def calc_best_heading(heading, possible_moves):
+    sims = np.apply_along_axis(
+        lambda array: cos_sim(heading, array), 1, possible_moves
+    )
+    return possible_moves[np.argmin(sims), :]
+
+
 def partitions(n, k):
     """
     Returns all possible arrangements of n indistinct objects into
@@ -26,10 +33,7 @@ def walk_towards(
     position = np.zeros(target_vector.shape[0])
     for _ in range(n_steps):
         heading = target_vector - position
-        sims = np.apply_along_axis(
-            lambda array: cos_sim(heading, array), 1, possible_moves
-        )
-        step = possible_moves[np.argmin(sims), :]
+        step = calc_best_heading(heading, possible_moves)
         position = position + step
 
     return position
